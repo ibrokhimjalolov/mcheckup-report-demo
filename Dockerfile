@@ -9,8 +9,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # This includes index.html, *.tsx, and all subdirectories (components, hooks, etc.)
 COPY . /usr/share/nginx/html
 
-# Expose port 8000 to the outside world
-EXPOSE 8000
+# Expose port 8080 to the outside world
+EXPOSE 8080
 
 # Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
