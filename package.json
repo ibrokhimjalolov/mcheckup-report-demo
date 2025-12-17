@@ -1,0 +1,22 @@
+
+{
+  "name": "medical-check-up-report-generator",
+  "version": "1.0.0",
+  "description": "An AI-powered application that generates detailed, patient-friendly medical check-up reports from clinical data. Users can provide medical documents and notes to produce a structured, professional report in JSON format, ready for clinical use.",
+  "private": true,
+  "scripts": {
+    "start": "http-server -c-1 .",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^0.14.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "http-server": "^14.1.1",
+    "typescript": "^5.5.2"
+  }
+}
