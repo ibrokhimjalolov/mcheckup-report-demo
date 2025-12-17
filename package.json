@@ -1,4 +1,3 @@
-
 {
   "name": "medical-check-up-report-generator",
   "version": "1.0.0",
@@ -6,12 +5,14 @@
   "private": true,
   "scripts": {
     "start": "http-server -c-1 .",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "build": "vite build"
   },
   "dependencies": {
     "@google/genai": "^0.14.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "vite": "^4.4.9"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
