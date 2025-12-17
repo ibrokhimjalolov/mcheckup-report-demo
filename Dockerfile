@@ -1,16 +1,28 @@
+# ---------- Build stage ----------
+FROM node:20-alpine AS builder
 
-# Use a lightweight Nginx image for the production environment
-FROM nginx:stable-alpine
+WORKDIR /app
 
-# Copy the custom Nginx configuration. This replaces the default config.
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY package*.json ./
+RUN npm ci
 
-# Copy all application files to the Nginx web root directory
-# This includes index.html, *.tsx, and all subdirectories (components, hooks, etc.)
-COPY . /usr/share/nginx/html
+COPY . .
+RUN npm run build
 
-# Expose port 8080 to the outside world
+
+# ---------- Runtime stage ----------
+FROM nginx:alpine
+
+# Remove default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Cloud Run listens on 8080
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built static files
+COPY --from=builder /app/dist /usr/share/nginx/html
+
 EXPOSE 8080
 
-# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
+
