@@ -6,7 +6,8 @@
   "scripts": {
     "start": "http-server -c-1 .",
     "check-types": "tsc --noEmit",
-    "build": "vite build"
+    "build": "vite build",
+    "dev": "vite"
   },
   "dependencies": {
     "@google/genai": "^0.14.0",

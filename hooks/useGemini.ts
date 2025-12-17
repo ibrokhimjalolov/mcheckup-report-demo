@@ -4,12 +4,28 @@ import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
 import { SYSTEM_INSTRUCTION } from '../constants';
 import type { MedicalReport } from '../types';
 
-// FIX: `process.env` is not available in the browser. The original code threw an
-// error, preventing the application from loading.
-// The Python reference uses `os.environ.get()`, which returns None without
-// throwing. This change mimics that behavior, allowing the SDK to potentially
-// use Application Default Credentials via the `vertexai: true` flag.
-const API_KEY = process.env.API_KEY;
+// NOTE:
+// `process.env` is not available in the browser/Vite runtime.
+// Use a Vite-style env var instead, e.g. VITE_API_KEY defined in a `.env` file.
+// Example `.env` entry (NOT committed to git):
+//   VITE_API_KEY=your_real_api_key_here
+//
+// Vite exposes env vars on `import.meta.env` when they are prefixed with `VITE_`.
+// We read it in a way that won’t crash during build-time or tests.
+const API_KEY: string | undefined =
+  (typeof import.meta !== 'undefined' &&
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (import.meta as any).env?.VITE_API_KEY) ||
+  undefined;
+
+if (!API_KEY) {
+  // Fail fast with a clear message instead of a cryptic runtime error.
+  // This will show up in the browser console if the key isn’t configured.
+  // You can remove this throw if you prefer silent behavior.
+  throw new Error(
+    'Missing VITE_API_KEY. Define it in a `.env` file (e.g. VITE_API_KEY=your_key) for useGemini.',
+  );
+}
 
 const ai = new GoogleGenAI({ apiKey: API_KEY, vertexai: true });
 
